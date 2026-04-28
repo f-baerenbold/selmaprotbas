@@ -93,7 +93,7 @@
       real(rk) :: nb,deltao,nue,sigma_b,dn,dn_sed
       real(rk) :: q10_rec,ade_r0,alphaade,q10_recs,mbsrate,mbnnrate,df_dean,df_dean_sed
       real(rk) :: sedrate,erorate,sedratepo4,eroratepo4,po4ret,nitrif_rate
-      real(rk) :: fl_burialrt,pburialrate,pliberationrate,ipo4th,br0,fds,pvel,tau_crit
+      real(rk) :: fl_burialrt,pburialrate,plibrate,ipo4th,br0,fds,pvel,tau_crit
       integer  :: newflux
       character(len=16) :: env_type, mbn_stoi ! env_type is identifier for setting the environment to "marine" or "fresh" (fresh disables mineralization with sulphate)
       logical  :: diagnostics
@@ -160,7 +160,7 @@ end function gradual_switch
    call self%get_parameter(self%po4ret, 'po4ret', '-', 'fraction of mineralized phosphate that is converted to iron-phosphate-complexes in oxic sediments', default=0.18_rk)
    call self%get_parameter(self%pburialrate, 'pburialrate', '1/d', 'phosphate burial rate', default=0.007_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%fl_burialrt, 'fl_burialrt', '1/d', 'sediment burial rate', default=0.001_rk, scale_factor=1.0_rk/secs_per_day)
-   call self%get_parameter(self%pliberationrate, 'pliberationrate', '1/d', 'phosphate liberation rate, anoxic sediments', default=0.1_rk, scale_factor=1.0_rk/secs_per_day)
+   call self%get_parameter(self%plibrate, 'plibrate', '1/d', 'phosphate liberation rate, anoxic sediments', default=0.1_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%ipo4th, 'ipo4th', 'mmol P/m2', 'maximum phosphorus density available for burial', default=100._rk)
    call self%get_parameter(self%br0, 'br0', '1/d', 'bioresuspension rate', default=0.03_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%fds, 'fds', '-', 'fraction of sediment remineralization fueled by denitrification', default=0.7_rk)
@@ -427,7 +427,7 @@ end function gradual_switch
    ldn_O = recs * oxb_switch * (1.0_rk - self%fds ) + ldn_ndn * (4.0_rk - 2.887_rk * self%df_dean_sed) + ldn_S    ! Oxygen loss (or sulphate loss into h2s) due to mineralization 
 
    pret = self%po4ret  * oxb_switch             ! phosphate is stored with oxygen
-   plib = self%pliberationrate * (1.0_rk-oxb_switch) ! phosphorus is liberated on anoxic condition
+   plib = self%plibrate * (1.0_rk-oxb_switch) ! phosphorus is liberated on anoxic condition
 
    ! Sediment resuspension, detritus settling, diatom settling, bio-resuspension, mineralization and burial (carbon)
    _SET_BOTTOM_ODE_(self%id_fl_c,-llsd * fl_c + llds * ddb_c - biores * fl_c - recs_all * fl_c - fl_c * self%fl_burialrt) ! Prev version; 2nd order: * fl_c
