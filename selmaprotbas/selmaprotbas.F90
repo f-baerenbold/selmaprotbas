@@ -135,14 +135,14 @@ end function gradual_switch
    class(type_selmaprotbas),intent(inout),target :: self
    integer,               intent(in)           :: configunit
    real(rk),parameter :: secs_per_day = 86400._rk
-   real(rk) :: wdz,wpo4,kc
+   real(rk) :: wdz,wpo4,kc_det
    
    call self%get_parameter(self%env_type, 'env_type', 'Define environment type, either fresh or marine', default='marine') 
    call self%get_parameter(wdz, 'wdz', 'm/d', 'vertical velocity of detritus (positive: upwards/floating, negative: downwards/sinking)', default=-4.5_rk)
    call self%get_parameter(wpo4, 'wpo4', 'm/d', 'vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)', default=-1.0_rk)
    call self%get_parameter(self%dn, 'dn', '1/d', 'detritus mineralization rate', default=0.003_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%dn_sed,  'dn_sed', '1/d', 'sediment mineralization rate', default=0.002_rk, scale_factor=1.0_rk/secs_per_day)
-   call self%get_parameter(kc, 'kc', 'm2/mmol C', 'specific light attenuation of detritus', default=0.0036_rk)
+   call self%get_parameter(kc_det, 'kc_det', 'm2/mmol C', 'specific light attenuation of detritus', default=0.0036_rk)
    call self%get_parameter(self%q10_rec, 'q10_rec', '1/K', 'temperature dependence of detritus remineralization', default=0.15_rk)
    call self%get_parameter(self%ade_r0, 'ade_r0', '1/d', 'maximum chemolithoautotrophic denitrification rate', default=0.1_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%alphaade,'alphaade', 'mmol N/m3', 'half-saturation constant for chemolithoautotrophic denitrification', default=1.0_rk)
@@ -204,7 +204,7 @@ end function gradual_switch
    call self%add_to_aggregate_variable(standard_variables%total_carbon,     self%id_fl_c)
    call self%add_to_aggregate_variable(standard_variables%total_phosphorus, self%id_pb)
    call self%add_to_aggregate_variable(standard_variables%total_phosphorus, self%id_pw)
-   call self%add_to_aggregate_variable(standard_variables%attenuation_coefficient_of_photosynthetic_radiative_flux, self%id_dd_c, kc)
+   call self%add_to_aggregate_variable(standard_variables%attenuation_coefficient_of_photosynthetic_radiative_flux, self%id_dd_c, kc_det)
    
    call self%add_to_aggregate_variable(standard_variables%total_silicate,   self%id_fl_si)
    call self%add_to_aggregate_variable(standard_variables%total_silicate,   self%id_si)
