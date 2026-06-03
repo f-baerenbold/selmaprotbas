@@ -153,7 +153,7 @@ end function gradual_switch
    call self%get_parameter(self%nitrif_rate, 'nitrif_rate', '1/d', 'nitrification rate', default=0.1_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%q10_recs,'q10_recs','1/K', 'temperature dependence of sediment remineralization', default=0.175_rk)
    call self%get_parameter(self%tau_crit,'tau_crit','N/m2', 'critical shear stress', default=0.07_rk)
-   call self%get_parameter(self%sedrate_det, 'sedrate', 'm/d', 'detritus sedimentation rate', default=2.25_rk, scale_factor=1.0_rk/secs_per_day)
+   call self%get_parameter(self%sedrate_det, 'sedrate_det', 'm/d', 'detritus sedimentation rate', default=2.25_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%erorate, 'erorate', '1/d', 'sediment erosion rate', default=6._rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%sedratepo4, 'sedratepo4','m/d', 'P-Fe sedimentation rate', default=0.5_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%eroratepo4, 'eroratepo4','1/d', 'P-Fe erosion rate', default=6._rk, scale_factor=1.0_rk/secs_per_day)
