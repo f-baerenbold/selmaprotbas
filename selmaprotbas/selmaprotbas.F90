@@ -92,7 +92,7 @@
       ! Model parameters
       real(rk) :: nb,deltao,nue,sigma_b,dn,dn_sed
       real(rk) :: q10_rec,ade_r0,alphaade,q10_recs,mbsrate,mbnnrate,df_dean,df_dean_sed
-      real(rk) :: sedrate,erorate,sedratepo4,eroratepo4,po4ret,nitrif_rate
+      real(rk) :: sedrate_det,erorate,sedratepo4,eroratepo4,po4ret,nitrif_rate
       real(rk) :: fl_burialrt,pburialrate,plibrate,ipo4th,br0,fds,pvel,tau_crit
       integer  :: newflux
       character(len=16) :: env_type, mbn_stoi ! env_type is identifier for setting the environment to "marine" or "fresh" (fresh disables mineralization with sulphate)
@@ -153,7 +153,7 @@ end function gradual_switch
    call self%get_parameter(self%nitrif_rate, 'nitrif_rate', '1/d', 'nitrification rate', default=0.1_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%q10_recs,'q10_recs','1/K', 'temperature dependence of sediment remineralization', default=0.175_rk)
    call self%get_parameter(self%tau_crit,'tau_crit','N/m2', 'critical shear stress', default=0.07_rk)
-   call self%get_parameter(self%sedrate, 'sedrate', 'm/d', 'detritus sedimentation rate', default=2.25_rk, scale_factor=1.0_rk/secs_per_day)
+   call self%get_parameter(self%sedrate_det, 'sedrate', 'm/d', 'detritus sedimentation rate', default=2.25_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%erorate, 'erorate', '1/d', 'sediment erosion rate', default=6._rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%sedratepo4, 'sedratepo4','m/d', 'P-Fe sedimentation rate', default=0.5_rk, scale_factor=1.0_rk/secs_per_day)
    call self%get_parameter(self%eroratepo4, 'eroratepo4','1/d', 'P-Fe erosion rate', default=6._rk, scale_factor=1.0_rk/secs_per_day)
@@ -409,7 +409,7 @@ end function gradual_switch
       bpds=0.0_rk
       bpsd=self%eroratepo4*(taub-self%tau_crit)/self%tau_crit
    else
-      llds=self%sedrate*(self%tau_crit-taub)/self%tau_crit
+      llds=self%sedrate_det*(self%tau_crit-taub)/self%tau_crit
       llsd=0.0_rk
       bpds=self%sedratepo4*(self%tau_crit-taub)/self%tau_crit
       bpsd=0.0_rk
