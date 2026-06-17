@@ -279,27 +279,26 @@
 	  ! BOSP
 	  ! Temperature-modification of growth rate, based on tlim parameter
 	  ! 0: none, 1: flagellate-style, 2: cyanobacteria-style, 3:PROTECH-style, 4:optimal-stdev, 5: Lehman-equation
-     self%r0 = self%r0 * self%r0_scaling
 	  if (self%tlim == 0) then
-		 r0_temp = self%r0
+		 r0_temp = self%r0 * self%r0_scaling
 	  elseif (self%tlim == 1) then
          ! Flagellate-style: Type III [sigmoidal] functional response ranging between 1 and 2
 		 ! Caveat: this function makes r0 the maximum growth rate at 0 degrees C and increases it by up to a factor 2
          tempq = max(temp,0.0_rk)**2
-         r0_temp = self%r0 * (1.0_rk + tempq / (self%tll + tempq))
+         r0_temp = self%r0 * self%r0_scaling * (1.0_rk + tempq / (self%tll + tempq))
       elseif (self%tlim == 2) then
          ! Cyanobacteria-style: 0 at infinitely low temp, 0.5 at tll, 1.0 at infinitely high temp
-         r0_temp = self%r0  / (1.0_rk + exp(self%tll - temp))
+         r0_temp = self%r0 * self%r0_scaling  / (1.0_rk + exp(self%tll - temp))
 	  elseif (self%tlim == 3) then
 	     ! Exponential change with temperature. 'beta' can be based on cell size aspects. Source: PROTBAS model
-		 r0_temp = 10**(log10(self%r0) + self%beta * (1000._rk / 293._rk - 1000._rk / (273._rk + temp)))
+		 r0_temp = 10**(log10(self%r0 * self%r0_scaling) + self%beta * (1000._rk / 293._rk - 1000._rk / (273._rk + temp)))
 	  elseif (self%tlim == 4) then
 	     ! Optimal temperature with gaussian distribution. self%r0 is always the growth at 20 degrees. Source: WET (Water Ecosystems Tool) model.
-		 r0_temp = self%r0 * exp(-0.5_rk / self%temp_sigma**2 * ((temp - self%temp_opt)**2 - (20.0_rk - self%temp_opt)**2))
+		 r0_temp = self%r0 * self%r0_scaling * exp(-0.5_rk / self%temp_sigma**2 * ((temp - self%temp_opt)**2 - (20.0_rk - self%temp_opt)**2))
 	  elseif (self%tlim == 5) then
 	     ! Similar to tlim == 4 (WET option), but in this equation, r0 is the growth at Topt (so not necessarily 20 degrees) and use of "t_min" (temp where growth is 10% of optimal) rather than "temp_sigma"
 		 ! Source: Lehman et al. 1975 (doi:10.4319/lo.1975.20.3.0343)
-		 r0_temp = self%r0 * exp(-2.3_rk * ((self%temp_opt - temp) / (self%temp_opt - self%temp_min))**2)
+		 r0_temp = self%r0 * self%r0_scaling * exp(-2.3_rk * ((self%temp_opt - temp) / (self%temp_opt - self%temp_min))**2)
       end if
 	  
 	  ! Light limitation
