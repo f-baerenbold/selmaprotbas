@@ -58,6 +58,7 @@ instances:
       alpha_p: 0.015625                  # half-saturation concentration for phosphorus uptake (mmol P/m3), default = 0.015625
       alpha_si: 0.234375                 # half-saturation concentration for silica uptake (mmol Si/m3), default = 0.0
       r0: 1.2                            # maximum growth rate; tlim=1 - at 0 degC and 2*r0 at temp>>sqrt(tll); tlim=2 - at temp>>tll; tlim=3 or 4 - at 20 degC; tlim=5 - at temp_opt, default = 1.3
+      r0_scaling: 1.0                    # Scaling parameter for maximum growth rate, default = 1.0
       tlim: 4                            # temperature limitation of growth (0: none, 1: flagellate-style, 2: cyanobacteria-style, 3:PROTECH-style, 4:optimal-stdev, 5: Lehman-equation, default = 0
       temp_opt: 12.0                     # optimum temperature of growth rate (degrees C), default = 20.0
       temp_sigma: 10.0                   # growth rate temperature constant; sigma in Gaussian curve (degrees C), default = 11.6
@@ -96,6 +97,7 @@ instances:
       alpha_n: 0.25                      # half-saturation concentration for nitrogen uptake (mmol N/m3), default = 0.25
       alpha_p: 0.015625                  # half-saturation concentration for phosphorus uptake (mmol P/m3), default = 0.015625
       r0: 0.5                            # maximum growth rate; tlim=1 - at 0 degC and 2*r0 at temp>>sqrt(tll); tlim=2 - at temp>>tll; tlim=3 or 4 - at 20 degC; tlim=5 - at temp_opt, default = 1.3
+      r0_scaling: 1.0                    # Scaling parameter for maximum growth rate, default = 1.0
       tlim: 1                            # temperature limitation of growth (0: none, 1: flagellate-style, 2: cyanobacteria-style, 3:PROTECH-style, 4:optimal-stdev, 5: Lehman-equation), default = 0
       tll: 100.0                         # tlim=1; half-saturation temperature, squared, default = 100 (degrees C^2); tlim=2; lower temperature limit, default = 13.5 (degrees C)
       llim: 1                            # light limitation of growth (1: Reynolds, 2: Selma, 3: Reynolds-smoothed), default = 1
@@ -133,6 +135,7 @@ instances:
       alpha_n: 0.25                      # half-saturation concentration for nitrogen uptake (mmol N/m3), default = 0.25
       alpha_p: 0.015625                  # half-saturation concentration for phosphorus uptake (mmol P/m3), default = 0.015625
       r0: 1.3                            # maximum growth rate; tlim=1 - at 0 degC and 2*r0 at temp>>sqrt(tll); tlim=2 - at temp>>tll; tlim=3 or 4 - at 20 degC; tlim=5 - at temp_opt, default = 1.3
+      r0_scaling: 1.0                    # Scaling parameter for maximum growth rate, default = 1.0
       tlim: 2                            # temperature limitation of growth (0: none, 1: flagellate-style, 2: cyanobacteria-style, 3:PROTECH-style, 4:optimal-stdev, 5: Lehman-equation), default = 0
       tll: 13.5                          # tlim=1; half-saturation temperature, squared, default = 100 (degrees C^2); tlim=2; lower temperature limit, default = 13.5 (degrees C)
       llim: 3                            # light limitation of growth (1: Reynolds, 2: Selma, 3: Reynolds-smoothed), default = 1
