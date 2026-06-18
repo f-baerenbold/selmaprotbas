@@ -124,7 +124,7 @@
    call self%get_parameter(self%alpha_p, 'alpha_p', 'mmol P/m3',   'half-saturation concentration for phosphorus uptake', default=0.015625_rk)
    call self%get_parameter(self%alpha_si, 'alpha_si', 'mmol Si/m3',   'half-saturation concentration for silicon uptake', default=0.0_rk)
    call self%get_parameter(self%r0, 'r0',    '1/d', 'maximum growth rate; tlim=1 - at 0 degC and 2*r0 at temp>>sqrt(tll); tlim=2 - at temp>>tll; tlim=3 or 4 - at 20 degC; tlim=5 - at temp_opt',  default=1.3_rk, scale_factor=1.0_rk/secs_per_day)
-   call self%get_parameter(self%r0_scaling, 'r0_scaling',    '-', 'calibration factor for r0',  default=1.0_rk, scale_factor=1.0_rk/secs_per_day)
+   call self%get_parameter(self%r0_scaling, 'r0_scaling',    '-', 'calibration factor for r0',  default=1.0_rk)
    call self%get_parameter(self%nitrogen_fixation,    'nitrogen_fixation', '', 'whether nitrogen fixation is used to acquire nitrogen', default=.false.)
    call self%get_parameter(self%buoyancy_regulation,    'buoyancy_regulation', '', 'whether cells can regulate vertical movement', default=.false.)
    call self%get_parameter(self%buoy_temperature,    'buoy_temperature', '', 'whether temperature can regulate buoyancy, if buoyancy_regulation is true', default=.false.)
