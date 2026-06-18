@@ -589,9 +589,9 @@ end function gradual_switch
 	  
 	  ! Schmidt number for O2 based on Wanninkhof (1992, Journ. of Geophys. Res.) differs between fresh- and seawater
 	  if (self%env_type .eq. "fresh") then
-         schmidt = 1800.6_rk - 120.1_rk * temp + 3.7818_rk * temp**2_rk + 0.047608_rk * temp**3_rk
+         schmidt = 1800.6_rk - 120.1_rk * temp + 3.7818_rk * temp**2_rk - 0.047608_rk * temp**3_rk
       else
-         schmidt = 1953.4_rk - 128.0_rk * temp + 3.9918_rk * temp**2_rk + 0.050091_rk * temp**3_rk
+         schmidt = 1953.4_rk - 128.0_rk * temp + 3.9918_rk * temp**2_rk - 0.050091_rk * temp**3_rk
       end if
 	  
 	  ! Exchange based on Cole & Caroco (1998, L&O) following Staehr et al. (2010, L&O Methods)
