@@ -301,6 +301,7 @@ end function gradual_switch
 
       !!!! NITRIFICATION RATE !!!!
       o2_pos = max(0.0_rk, o2) !for oxygen dependent process if o2<0 then o2=0
+      o2_gswitch = gradual_switch(o2_pos, 0.001_rk)
       ! Nitrification rate depends on oxygen availability and temperature
       nf = o2_pos / (0.01_rk + o2_pos) * self%nitrif_rate * exp (0.11_rk * temp)
 
@@ -308,8 +309,8 @@ end function gradual_switch
       ldn = self%dn * exp (self%q10_rec*temp)
       ! Source for chemolithoautotrophic denitrification: Schmidt & Eggert (2012). A regional 3D coupled ecosystem model of the Benguela upwelling system. Marine Science Reports, 87
       ! process rates 
-      ldn_N = ldn * self%mbnnrate * nn_gswitch * (1.0_rk-o2_switch) * self%df_dean   ! Denitrification rate depends on nitrate availability and fraction of denitrification+anammox
-      anmx = ldn * self%mbnnrate * nn_gswitch * gradual_switch(aa, 0.001_rk) * (1.0_rk - o2_switch)*(1.0_rk - self%df_dean) ! Anammox rate depends on nitrate, ammonium and fraction of denitrification+anammox         
+      ldn_N = ldn * self%mbnnrate * nn_gswitch * (1.0_rk-o2_gswitch) * self%df_dean   ! Denitrification rate depends on nitrate availability and fraction of denitrification+anammox
+      anmx = ldn * self%mbnnrate * nn_gswitch * gradual_switch(aa, 0.001_rk) * (1.0_rk - o2_gswitch)*(1.0_rk - self%df_dean) ! Anammox rate depends on nitrate, ammonium and fraction of denitrification+anammox         
       ldn_S = ldn * self%mbsrate * (1.0_rk - nn_gswitch) * (1.0_rk - o2_switch)        ! Mineralization rate with sulphate. starts a bit before nitrate is depleted
       ade = self%ade_r0 * gradual_switch(nn, self%alphaade) * (1.0_rk - o2_switch)  ! ade rate nitrate dependent
       ldn_all = ldn * o2_switch + ldn_N + anmx + ldn_S ! Mineralization rate depends on temperature and on electron accepteor (O2,NO3,SO4).
@@ -426,7 +427,7 @@ end function gradual_switch
    recs = self%dn_sed * exp(self%q10_recs * temp) !
    
    ! Mineralization rates (see description of pelagic part)
-   ldn_N = recs * self%mbnnrate * nnb_gswitch * (1.0_rk-oxb_switch) * self%df_dean_sed    ! Denitrification rate depends on nitrate availability and fraction of denitrification+anammox
+   ldn_N = recs * self%mbnnrate * nnb_gswitch * (1.0_rk-oxb_gswitch) * self%df_dean_sed    ! Denitrification rate depends on nitrate availability and fraction of denitrification+anammox
    anmx = recs * self%mbnnrate * nnb_gswitch * aab_gswitch * (1.0_rk-oxb_gswitch)*(1.0_rk - self%df_dean_sed) ! Anammox rate depends on nitrate, ammonium and fraction of denitrification+anammox
    ldn_ndn = recs * self%mbnnrate * aab_gswitch * oxb_gswitch * self%fds ! Rate for mineralisation in part of the sediment where oxygen does not reach (oxygen in water column > 0)
    ldn_S = recs * self%mbsrate * (1.0_rk - nnb_gswitch) * (1.0_rk-oxb_switch)        ! Mineralization rate by sulphate. starts a bit before nitrate is depleted
