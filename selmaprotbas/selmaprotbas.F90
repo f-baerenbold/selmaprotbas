@@ -275,7 +275,7 @@ end function gradual_switch
     real(rk),parameter :: si_molar_mass =  28.0855_rk ! molar mass of Si
     real(rk),parameter :: epsilon = 0.00000000001_rk
     real(rk),parameter :: secs_per_day = 86400._rk
-	real(rk)		   :: o2_switch,nn_switch,nn_gswitch
+	real(rk)		   :: o2_switch,o2_gswitch,nn_switch,nn_gswitch
 !EOP
 !-----------------------------------------------------------------------
 !BOC
